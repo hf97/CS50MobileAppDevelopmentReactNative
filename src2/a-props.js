@@ -13,6 +13,7 @@ const App = (props) => (
   </div>
 );
 
+// igual a App
 const App2 = function(props) {
   return (
     <div style={styles}>
