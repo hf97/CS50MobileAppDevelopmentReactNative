@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   	row: {
 	    flexDirection: "row"
 	},
-	time: {
+	font: {
 		fontSize: 78,
 	},
 });
@@ -33,40 +33,71 @@ const styles = StyleSheet.create({
 
 export default class App extends React.Component {
   	state = {
-		time: 1000,
 		inputTrabMin: "",
     	inputTrabSec: "",	
 		inputParMin: "",
 		inputParSec: "",
+		isWorkTime: true,
+		timeWork: 0,
+		interval: 0,
 	}
 
+	decWork = () => {
+		if(this.state.inputTrabSec >= 1){
+			this.setState(prevState => ({
+				  inputTrabSec: prevState.inputTrabSec - 1,
+			}))	
+		}
+		else if (this.state.inputTrabMin >= 1){
+			this.setState(prevState => ({
+				inputTrabMin: prevState.inputTrabMin -1,
+				inputTrabSec: 59,
+			}))	
+		}
+		else{
+			this.setState({isWorkTime: false})
+			console.log(this.state.isWorkTime)
+		}
+
+	}
+	
+	decBreak = () => {
+		if(this.state.inputParSec >= 1){
+			this.setState(prevState => ({
+				inputParSec: prevState.inputParSec - 1,
+			}))	
+		}
+		else if (this.state.inputParMin >= 1){
+			this.setState(prevState => ({
+				inputParMin: prevState.inputParMin -1,
+				inputParSec: 59,
+			}))	
+		}
+		else{
+			this.setState({isWorkTime: true})
+			console.log(this.state.isWorkTime)
+		}
+	}
+	
 	dec = () => {
-		console.log('increment!')
-		this.setState(prevState => ({
-		  	time: prevState.time - 1,
-		}))
+		if(this.state.isWorkTime){
+			this.decWork()
+		}
+		else{
+			this.decBreak()
+		}
 	}
 
   	toggleStart = () => {
-		// const itm = this.state.inputTrabMin
-		// const t = "${itm}"
-		// this.setState({
-		// 	time: "${this.state.inputTrabMin}",
-		// })
-		setInterval = setInterval(this.dec, 1000)
-	  }
-	  
-	componentWillUnmount() {
-		clearInterval(this.interval)
+		this.state.interval = setInterval(this.dec, 1000)
 	}
 
   	toggleStop = () => {
-
+		clearInterval(this.state.interval)
   	}	
 
   	toggleReset = () => {
     	this.setState(prevState => ({
-			time: "00:00",  
 			inputTrabMin: "",
 			inputTrabSec: "",	
 			inputParMin: "",
@@ -95,20 +126,20 @@ export default class App extends React.Component {
 	    return (
       		<View style={styles.container}>
         		{/* <View style = {styles.container}> */}
-				<Text style = {styles.time}>{this.state.time}</Text>
+				<Text style = {styles.font}>{this.state.inputTrabMin}:{this.state.inputTrabSec}</Text>
         		<View>
 					<View style = {styles.row}>
 						<TextInput 
 							keyboardType = "numeric"
 							style = {styles.input}
-							value = {this.state.inputTrabMin}
+							value = {String(this.state.inputTrabMin)}
 							onChangeText = {this.handleInputTrabMin}
 							placeholder = "Work minutes:"
 						/>
 						<TextInput
 							keyboardType = "numeric"
-							style = {[styles.input]}
-							value = {this.state.inputTrabSec}
+							style = {styles.input}
+							value = {String(this.state.inputTrabSec)}
 							onChangeText = {this.handleInputTrabSec}
 							placeholder = "Work seconds:"
 						/>
@@ -117,14 +148,14 @@ export default class App extends React.Component {
 						<TextInput 
 							keyboardType = "numeric"
 							style = {styles.input}
-							value = {this.state.inputParMin}
+							value = {String(this.state.inputParMin)}
 							onChangeText = {this.handleInputParMin}
 							placeholder = "Stop minutes:"
 						/>
 						<TextInput 
 							keyboardType = "numeric"
 							style = {styles.input}
-							value = {this.state.inputParSec}
+							value = {String(this.state.inputParSec)}
 							onChangeText = {this.handleInputParSec}
 							placeholder = "Stop seconds:"
 						/>
