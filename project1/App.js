@@ -45,7 +45,6 @@ export default class App extends React.Component {
 		parMin: 0,
 		parSec: 0,
 		isBreakTime: false,
-		// timeWork: 0,
 		interval: 0,
 	}
 
@@ -145,10 +144,8 @@ export default class App extends React.Component {
   	render() {
 	    return (
       		<View style={styles.container}>
-        		{/* <View style = {styles.container}> */}
-				<Text style = {styles.test}>{this.state.trabMin}:{this.state.trabSec}</Text>
-				<Text style = {styles.test}>{this.state.parMin}:{this.state.parSec}</Text>
-				{/* <Text style = {styles.font}>{this.state.inputTrabMin}:{this.state.inputTrabSec}</Text> */}
+				<Text style = {styles.test}>Work = {this.state.trabMin}:{this.state.trabSec}</Text>
+				<Text style = {styles.test}>Break = {this.state.parMin}:{this.state.parSec}</Text>
         		<View>
 					<View style = {styles.row}>
 						<TextInput 
