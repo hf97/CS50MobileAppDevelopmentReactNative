@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
 	font: {
 		fontSize: 78,
 	},
+	test: {
+		fontSize: 40,
+	}
 });
 
 
@@ -37,54 +40,64 @@ export default class App extends React.Component {
     	inputTrabSec: "",	
 		inputParMin: "",
 		inputParSec: "",
-		isWorkTime: true,
-		timeWork: 0,
+		trabMin: 0,
+		trabSec: 0,
+		parMin: 0,
+		parSec: 0,
+		isBreakTime: false,
+		// timeWork: 0,
 		interval: 0,
 	}
 
 	decWork = () => {
-		if(this.state.inputTrabSec >= 1){
+		if(this.state.trabSec >= 1){
 			this.setState(prevState => ({
-				  inputTrabSec: prevState.inputTrabSec - 1,
+				  trabSec: prevState.trabSec - 1,
 			}))	
 		}
-		else if (this.state.inputTrabMin >= 1){
+		else if (this.state.trabMin >= 1){
 			this.setState(prevState => ({
-				inputTrabMin: prevState.inputTrabMin -1,
-				inputTrabSec: 59,
+				trabMin: prevState.trabMin -1,
+				trabSec: 59,
 			}))	
 		}
 		else{
-			this.setState({isWorkTime: false})
-			console.log(this.state.isWorkTime)
+			this.setState({isBreakTime: false})
 		}
 
 	}
 	
 	decBreak = () => {
-		if(this.state.inputParSec >= 1){
+		if(this.state.parSec >= 1){
 			this.setState(prevState => ({
-				inputParSec: prevState.inputParSec - 1,
+				parSec: prevState.parSec - 1,
 			}))	
 		}
-		else if (this.state.inputParMin >= 1){
+		else if (this.state.parMin >= 1){
 			this.setState(prevState => ({
-				inputParMin: prevState.inputParMin -1,
-				inputParSec: 59,
+				parMin: prevState.parMin -1,
+				parSec: 59,
 			}))	
 		}
 		else{
-			this.setState({isWorkTime: true})
-			console.log(this.state.isWorkTime)
+			this.setState({isBreakTime: true})
 		}
 	}
 	
 	dec = () => {
-		if(this.state.isWorkTime){
-			this.decWork()
+		if(this.state.isBreakTime){
+			this.decWork(),
+			this.setState({
+				parMin: Number(this.state.inputParMin),
+				parSec: Number(this.state.inputParSec)
+			})
 		}
-		else{
-			this.decBreak()
+		else if (!this.state.isBreakTime){
+			this.decBreak(),
+			this.setState({
+				trabMin: Number(this.state.inputTrabMin),
+				trabSec: Number(this.state.inputTrabSec)
+			})
 		}
 	}
 
@@ -97,11 +110,18 @@ export default class App extends React.Component {
   	}	
 
   	toggleReset = () => {
-    	this.setState(prevState => ({
+		clearInterval(this.state.interval)
+		this.setState(prevState => ({
 			inputTrabMin: "",
 			inputTrabSec: "",	
 			inputParMin: "",
 			inputParSec: "",
+			trabMin: 0,
+			trabSec: 0,
+			parMin: 0,
+			parSec: 0,
+			isBreakTime: false,
+			interval: 0,
 		}))
 	}
 	
@@ -126,7 +146,9 @@ export default class App extends React.Component {
 	    return (
       		<View style={styles.container}>
         		{/* <View style = {styles.container}> */}
-				<Text style = {styles.font}>{this.state.inputTrabMin}:{this.state.inputTrabSec}</Text>
+				<Text style = {styles.test}>{this.state.trabMin}:{this.state.trabSec}</Text>
+				<Text style = {styles.test}>{this.state.parMin}:{this.state.parSec}</Text>
+				{/* <Text style = {styles.font}>{this.state.inputTrabMin}:{this.state.inputTrabSec}</Text> */}
         		<View>
 					<View style = {styles.row}>
 						<TextInput 
