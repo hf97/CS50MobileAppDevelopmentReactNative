@@ -44,24 +44,56 @@ export default class App extends React.Component {
 		trabSec: 0,
 		parMin: 0,
 		parSec: 0,
+		timeM: "00",
+		timeS: "00",
 		isBreakTime: false,
 		interval: 0,
+		isStart: false,
+		type: "Work",
 	}
-
+	
 	decWork = () => {
 		if(this.state.trabSec >= 1){
 			this.setState(prevState => ({
 				  trabSec: prevState.trabSec - 1,
-			}))	
+			}))
+			if(this.state.trabSec < 10){
+				this.setState({timeS: "0" + this.state.trabSec})
+			}
+			else{
+				this.setState({timeS: this.state.trabSec})
+			}
+			if(this.state.trabMin < 10){
+				this.setState({timeM: "0" + this.state.trabMin})
+			}
+			else{
+				this.setState({timeM: this.state.trabMin})
+			}
 		}
 		else if (this.state.trabMin >= 1){
 			this.setState(prevState => ({
 				trabMin: prevState.trabMin -1,
 				trabSec: 59,
 			}))	
+			if(this.state.trabMin < 1){
+				this.setState({
+					timeS: this.state.trabSec,
+					timeM: "0" + this.state.trabMin,
+				})
+			}
+			else{
+				this.setState({
+					timeS: this.state.trabSec,
+					timeM: this.state.trabMin,
+				})
+			}
 		}
 		else{
-			this.setState({isBreakTime: false})
+			vibrate()
+			this.setState({type: "Break"})
+			this.setState({
+				isBreakTime: false,
+			})
 		}
 
 	}
@@ -71,40 +103,94 @@ export default class App extends React.Component {
 			this.setState(prevState => ({
 				parSec: prevState.parSec - 1,
 			}))	
+			if(this.state.parSec < 10){
+				this.setState({timeS: "0" + this.state.parSec})
+			}	
+			else{
+				this.setState({timeS: this.state.parSec})
+			}
+			if(this.state.parMin < 10){
+				this.setState({timeM: "0" + this.state.parMin})
+			}
+			else{
+				this.setState({timeM: this.state.parMin})
+			}
 		}
 		else if (this.state.parMin >= 1){
 			this.setState(prevState => ({
 				parMin: prevState.parMin -1,
 				parSec: 59,
-			}))	
+			}))
+			if(this.state.parMin < 1){
+				this.setState({
+					timeS: this.state.parSec,
+					timeM: "0" + this.state.parMin,
+				})
+			}
+			else{
+				this.setState({
+					timeS: this.state.parSec,
+					timeM: this.state.parMin,
+				})
+			}
 		}
 		else{
-			this.setState({isBreakTime: true})
+			vibrate()
+			this.setState({type: "Work"})
+			this.setState({
+				isBreakTime: true,
+			})
 		}
 	}
 	
 	dec = () => {
 		if(this.state.isBreakTime){
+			if(this.state.inputParSec < 10){
+				this.setState({timeS: "0" + this.state.inputParSec})
+			}
+			else{
+				this.setState({timeS: this.state.inputParSec})
+			}
+			if(this.state.inputParMin < 10){
+				this.setState({timeM: "0" + this.state.inputParMin})
+			}
+			else{
+				this.setState({timeM: this.state.inputParMin})
+			}
 			this.decWork(),
 			this.setState({
 				parMin: Number(this.state.inputParMin),
-				parSec: Number(this.state.inputParSec)
+				parSec: Number(this.state.inputParSec),
 			})
 		}
 		else if (!this.state.isBreakTime){
+			if(this.state.inputTrabSec < 10){
+				this.setState({timeS: "0" + this.state.inputTrabSec})
+			}
+			else{
+				this.setState({timeS: this.state.inputTrabSec})
+			}
+			if(this.state.inputTrabMin < 10){
+				this.setState({timeM: "0" + this.state.inputTrabMin})
+			}
+			else{
+				this.setState({timeM: this.state.inputTrabMin})
+			}
 			this.decBreak(),
 			this.setState({
 				trabMin: Number(this.state.inputTrabMin),
-				trabSec: Number(this.state.inputTrabSec)
+				trabSec: Number(this.state.inputTrabSec),
 			})
 		}
 	}
 
   	toggleStart = () => {
+		this.setState({isStart: true})
 		this.state.interval = setInterval(this.dec, 1000)
 	}
 
   	toggleStop = () => {
+		this.setState({isStart: false})
 		clearInterval(this.state.interval)
   	}	
 
@@ -119,46 +205,58 @@ export default class App extends React.Component {
 			trabSec: 0,
 			parMin: 0,
 			parSec: 0,
+			timeM: "00",
+			timeS: "00",
 			isBreakTime: false,
 			interval: 0,
-		}))
-	}
+			isStart: false,
+			type: "Work"
+		}))	
+	}	
 	
 	handleInputTrabMin = inputTrabMin => {
-		this.setState({inputTrabMin})
+		if(+inputTrabMin || inputTrabMin === ""){
+			this.setState({inputTrabMin})
+		}
 	}
 	
 	handleInputTrabSec = inputTrabSec => {
-		this.setState({inputTrabSec})
+		if(+inputTrabSec || inputTrabSec === ""){
+			this.setState({inputTrabSec})
+		}
 	}
 
 	handleInputParMin = inputParMin => {
-		this.setState({inputParMin})
+		if(+inputParMin || inputParMin === ""){
+			this.setState({inputParMin})
+		}
 	}
 
 	handleInputParSec = inputParSec => {
-		this.setState({inputParSec})
+		if(+inputParSec || inputParSec === ""){
+			this.setState({inputParSec})
+		}
 	}
 	
-  
   	render() {
 	    return (
       		<View style={styles.container}>
-				<Text style = {styles.test}>Work = {this.state.trabMin}:{this.state.trabSec}</Text>
-				<Text style = {styles.test}>Break = {this.state.parMin}:{this.state.parSec}</Text>
+				<Text style = {styles.test}>{this.state.type}</Text>
+				<Text style = {styles.test}>{this.state.timeM}:{this.state.timeS}</Text>
         		<View>
 					<View style = {styles.row}>
 						<TextInput 
 							keyboardType = "numeric"
 							style = {styles.input}
-							value = {String(this.state.inputTrabMin)}
+							value = {this.state.inputTrabMin}
 							onChangeText = {this.handleInputTrabMin}
 							placeholder = "Work minutes:"
 						/>
 						<TextInput
 							keyboardType = "numeric"
 							style = {styles.input}
-							value = {String(this.state.inputTrabSec)}
+							value = {this.state.inputTrabSec}
+							maxLength = {2}
 							onChangeText = {this.handleInputTrabSec}
 							placeholder = "Work seconds:"
 						/>
@@ -167,22 +265,23 @@ export default class App extends React.Component {
 						<TextInput 
 							keyboardType = "numeric"
 							style = {styles.input}
-							value = {String(this.state.inputParMin)}
+							value = {this.state.inputParMin}
 							onChangeText = {this.handleInputParMin}
 							placeholder = "Stop minutes:"
 						/>
 						<TextInput 
 							keyboardType = "numeric"
 							style = {styles.input}
-							value = {String(this.state.inputParSec)}
+							value = {this.state.inputParSec}
+							maxLength = {2}
 							onChangeText = {this.handleInputParSec}
 							placeholder = "Stop seconds:"
 						/>
 					</View>
         		</View>
         		<View style = {styles.row}>
-          			<Button title = "Start" onPress = {this.toggleStart}/>
-          			<Button title = "Stop" onPress = {this.toggleStop}/>
+          			<Button title = "Start" onPress = {this.toggleStart} disabled = {this.state.isStart}/>
+          			<Button title = "Stop" onPress = {this.toggleStop} disabled = {!this.state.isStart}/>
           			<Button title = "Reset" onPress = {this.toggleReset}/>
         		</View>
       		</View>
