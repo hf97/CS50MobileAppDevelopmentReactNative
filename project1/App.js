@@ -215,25 +215,25 @@ export default class App extends React.Component {
 	}	
 	
 	handleInputTrabMin = inputTrabMin => {
-		if(+inputTrabMin || inputTrabMin === ""){
+		if(+inputTrabMin || inputTrabMin === "" || inputTrabMin === "0"){
 			this.setState({inputTrabMin})
 		}
 	}
 	
 	handleInputTrabSec = inputTrabSec => {
-		if(+inputTrabSec || inputTrabSec === ""){
+		if(+inputTrabSec || inputTrabSec === "" || inputTrabSec === "0"){
 			this.setState({inputTrabSec})
 		}
 	}
 
 	handleInputParMin = inputParMin => {
-		if(+inputParMin || inputParMin === ""){
+		if(+inputParMin || inputParMin === "" || inputParMin === "0"){
 			this.setState({inputParMin})
 		}
 	}
 
 	handleInputParSec = inputParSec => {
-		if(+inputParSec || inputParSec === ""){
+		if(+inputParSec || inputParSec === "" || inputParSec === "0"){
 			this.setState({inputParSec})
 		}
 	}
@@ -288,4 +288,3 @@ export default class App extends React.Component {
     	);
   	}
 }
-
