@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View, TextInput, StyleSheet } from "react-native";
+import { Button, View, TextInput, StyleSheet, Text } from "react-native";
 
 export default class SearchScreen extends React.Component {
 
@@ -13,7 +13,10 @@ export default class SearchScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <TextInput style={styles.textInput} onChangeText = {(text)=>this.handleMovie(text)} placeholder="Movie"/>
+        <TextInput style = { styles.textInput }
+          onChangeText = { (text) => this.handleMovie(text)} 
+          placeholder = "Movie"
+        />
         <Button title="Search" onPress={this.search} />
       </View>
     );
