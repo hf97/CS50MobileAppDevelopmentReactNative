@@ -19,32 +19,34 @@ export default class App extends React.Component {
 
       secondsBreak:0,
 
-      isRunning: false
+      isRunning: false,
+
+      type: "Work",
     }
   }
   
   componentDidMount2(){
-    this.state.isRunning=true
-    if(this.state.seconds==0){
-      this.state.seconds=(+this.state.workTimeMin)+(+this.state.workTimeSec)
+    this.state.isRunning = true
+    if(this.state.seconds == 0){
+      this.state.seconds = (+this.state.workTimeMin) + (+this.state.workTimeSec)
     }
-    if(this.state.secondsBreak==0){
-      this.state.secondsBreak=(+this.state.breakTimeMin)+(+this.state.breakTimeSec)
+    if(this.state.secondsBreak == 0){
+      this.state.secondsBreak = (+this.state.breakTimeMin) + (+this.state.breakTimeSec)
     }
-    this.interval=setInterval(()=>this.startTimer(),1000)
+    this.interval = setInterval(() => this.startTimer(), 1000)
   }
 
   componentWillUnmount(){
     this.setState({
-      isRunning:false
+      isRunning: false
     })
     clearInterval(this.interval)
   }
 
   reset(){
-    this.state.isRunning=false
-    this.state.seconds=(+this.state.workTimeMin)+(+this.state.workTimeSec)
-    this.state.secondsBreak=(+this.state.breakTimeMin)+(+this.state.breakTimeSec)
+    this.state.isRunning = false
+    this.state.seconds = (+this.state.workTimeMin) + (+this.state.workTimeSec)
+    this.state.secondsBreak = (+this.state.breakTimeMin) + (+this.state.breakTimeSec)
     this.setState({
       whichText: this.state.workInitialTime
     })
@@ -53,7 +55,7 @@ export default class App extends React.Component {
 
   handleWorkTimeMin(text){
     this.setState({
-      workTimeMin: parseInt(text,10)*60,
+      workTimeMin: parseInt(text,10) * 60,
     })
   }
 
@@ -67,7 +69,7 @@ export default class App extends React.Component {
 
   handleBreakTimeMin(text){
     this.setState({
-      breakTimeMin: (+text)*60,
+      breakTimeMin: (+text) * 60,
     }
     )
   }
@@ -80,35 +82,36 @@ export default class App extends React.Component {
   }
 
   startTimer(){
-    
-    if(this.state.seconds>=0){
-      this.setState((prevState) =>({
+    if(this.state.seconds >= 0){
+      this.setState((prevState) => ({
         seconds: prevState.seconds - 1
       }))
      }
      if(this.state.seconds<0 && this.state.break === false){
        vibrate()
        this.setState(()=>({
-       break: true,
-       secondsBreak: (+this.state.breakTimeMin)+(+this.state.breakTimeSec)
+        break: true,
+        type: "Break",
+        secondsBreak: (+this.state.breakTimeMin) + (+this.state.breakTimeSec)
      }))}
 
-     if(this.state.seconds<0 && this.state.break==true){
-      this.setState((prevState) =>({
+     if(this.state.seconds < 0 && this.state.break === true){
+      this.setState((prevState) => ({
         secondsBreak: prevState.secondsBreak - 1
       }))
      }
 
-     if(this.state.secondsBreak<0 && this.state.break === true){
+     if(this.state.secondsBreak < 0 && this.state.break === true){
         vibrate()
-        this.setState(()=>({
-        break: false,
-        seconds: (+this.state.workTimeMin)+(+this.state.workTimeSec)
+        this.setState( () => ({
+          break: false,
+          type: "Work",
+          seconds: (+this.state.workTimeMin) + (+this.state.workTimeSec)
     }))}
   }
 
   createMin(){
-    if(this.state.break==false){
+    if(this.state.break === false){
       var m = Math.floor(this.state.seconds % 3600 / 60);
       var s = Math.floor(this.state.seconds % 3600 % 60);
 
@@ -118,36 +121,28 @@ export default class App extends React.Component {
       var m = Math.floor(this.state.secondsBreak % 3600 / 60);
       var s = Math.floor(this.state.secondsBreak % 3600 % 60);
 
-      return ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2)}
+      return ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2)
+    }
   }
 
-  
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={{
-            fontSize: 60
-        }}>{this.createMin()}</Text>
-        <View style={{
-          flexDirection:"row"
-        }}>
-          <TextInput style={styles.textInput} onChangeText = {(text)=>this.handleWorkTimeMin(text)} placeholder="Work minutes"/>
-          <TextInput style={styles.textInput2} onChangeText = {(text)=>this.handleWorkTimeSec(text)} placeholder="Work seconds"/>
+      <View style = {styles.container}>
+        <Text style = {{fontSize: 50}}>{this.state.type}</Text>
+        <Text style = {{fontSize: 60}}>{this.createMin()}</Text>
+        <View style = {{flexDirection: "row"}}>
+          <TextInput style = {styles.textInput} onChangeText = {(text)=>this.handleWorkTimeMin(text)} placeholder = "Work minutes"/>
+          <TextInput style = {styles.textInput2} onChangeText = {(text)=>this.handleWorkTimeSec(text)} placeholder = "Work seconds"/>
         </View>
-        <View style={{
-          flexDirection:"row",
-        }}>
-          <TextInput style={styles.textInput} onChangeText = {(text)=>this.handleBreakTimeMin(text)} placeholder="Break minutes"/>
-          <TextInput style={styles.textInput2} onChangeText = {(text)=>this.handleBreakTimeSec(text)} placeholder="Break seconds"/>
+        <View style = {{flexDirection: "row"}}>
+          <TextInput style = {styles.textInput} onChangeText = {(text) => this.handleBreakTimeMin(text)} placeholder = "Break minutes"/>
+          <TextInput style = {styles.textInput2} onChangeText = {(text) => this.handleBreakTimeSec(text)} placeholder = "Break seconds"/>
         </View>
-        <View style={{
-          flexDirection:"row",
-          margin: 10
-        }}>
-        <Button title="Reset" onPress={()=>this.reset()} />
-        <Button title="Stop" onPress={()=> this.componentWillUnmount()} disabled={!this.state.isRunning}/>
-        <Button title="Start" onPress={()=> this.componentDidMount2()} disabled={this.state.isRunning}/>
+        <View style = {{flexDirection: "row", margin: 10}}>
+        <Button title = "Reset" onPress={() => this.reset()} />
+        <Button title = "Stop" onPress={() => this.componentWillUnmount()} disabled = {!this.state.isRunning}/>
+        <Button title = "Start" onPress={() => this.componentDidMount2()} disabled = {this.state.isRunning}/>
         </View>
       </View>
     );
@@ -156,7 +151,7 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     //backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'space-evenly',
