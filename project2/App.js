@@ -1,13 +1,35 @@
-import React from 'react';
+import React,  {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { createSwitchNavigator, createAppContainer} from '@react-navigation/native'
+//import {createStackNavigator} from 'react-navigation-stack'
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+
+import ResultScreen from "./screens/ResultScreen";
+import SearchScreen from "./screens/SearchScreen";
+
+
+const Stack = createStackNavigator()
 
 
 export default class App extends React.Component {
+  state={
+    movie:""
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>{ 
+          this.state.movie !== "" ? (
+            <Stack.Screen name="Result" Component={ResultScreen}/>
+          ) : (
+            <Stack.Screen name="Home" Component={SearchScreen}/>
+          )
+        }
+        </Stack.Navigator>
+      </NavigationContainer>
+      
     );
   }
 }
