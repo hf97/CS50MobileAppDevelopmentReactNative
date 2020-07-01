@@ -15,25 +15,43 @@ export default class App extends React.Component {
     movie:""
   }
 
-  render() {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName = "Home"
-        >
-          <Stack.Screen
-            name = "Search"
-            component = { SearchScreen }
-          />
-          <Stack.Screen
-            name = "Result"
-            component = { ResultScreen }
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+  // render() {
+  //   return (
+  //     <NavigationContainer>
+  //       <Stack.Navigator
+  //         initialRouteName = "Search"
+  //       >
+  //         <Stack.Screen
+  //           name = "Search"
+  //           component = { SearchScreen }
+  //         />
+  //         <Stack.Screen
+  //           name = "Result"
+  //           component = { ResultScreen }
+  //         />
+  //       </Stack.Navigator>
+  //     </NavigationContainer>
+  //   );
+  // }
+
+
+render() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName = "Home">
+          <Stack.Screen name="Result" component={ResultScreen}/>
+          <Stack.Screen name="Home" component={SearchScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+    
+  );
 }
+}
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {

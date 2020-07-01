@@ -1,19 +1,19 @@
 import React from "react";
-import { Button, View, TextInput, StyleSheet } from "react-native";
+import { Button, View,Text, TextInput, StyleSheet } from "react-native";
+import { navigation} from '@react-navigation/native'
 
 export default class ResultScreen extends React.Component {
-
-  handleMovie(text){
-    this.setState({
-      movie: text
-    })
+  static navigationOption = ({ navigation }) => {
+    return {
+      movie: navigation.getParam('movie', null)
+    }
   }
 
   render() {
 
     return (
       <View style={styles.container}>
-        <Button title="Search" onPress={this.search} />
+        <Text>{movie }</Text>
       </View>
     );
   }

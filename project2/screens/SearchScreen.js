@@ -4,20 +4,17 @@ import { Button, View, TextInput, StyleSheet, Text } from "react-native";
 export default class SearchScreen extends React.Component {
 
   handleMovie(text){
-    this.setState({
-      movie: text
-    })
+    movie=text
   }
 
   render() {
-
     return (
       <View style={styles.container}>
         <TextInput style = { styles.textInput }
           onChangeText = { (text) => this.handleMovie(text)} 
           placeholder = "Movie"
         />
-        <Button title="Search" onPress={this.search} />
+        <Button title="Search" onPress={() => this.props.navigation.navigate('Result',{"movie": movie})} />
       </View>
     );
   }
