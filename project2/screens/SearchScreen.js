@@ -1,11 +1,18 @@
 import React from "react";
 import { Button, View, TextInput, StyleSheet, Text } from "react-native";
 
+import {fetchMovies} from '../api'
+
 export default class SearchScreen extends React.Component {
 
+  
+
   handleMovie(text){
-    movie=text
+    movie = text
   }
+
+  
+
 
   render() {
     return (
@@ -14,7 +21,7 @@ export default class SearchScreen extends React.Component {
           onChangeText = { (text) => this.handleMovie(text)} 
           placeholder = "Movie"
         />
-        <Button title="Search" onPress={() => this.props.navigation.navigate('Result',{"movie": movie})} />
+        <Button title="Search" onPress={() => this.props.navigation.navigate('Result',{"movies": movie})} />
       </View>
     );
   }

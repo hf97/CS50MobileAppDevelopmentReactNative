@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer, createSwitchNavigator, createAppContainer} from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
 
-import ResultScreen from "./screens/ResultScreen";
+import ResultListScreen from "./screens/ResultListScreen";
 import SearchScreen from "./screens/SearchScreen";
 
 
@@ -39,7 +39,7 @@ render() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName = "Home">
-          <Stack.Screen name="Result" component={ResultScreen}/>
+          <Stack.Screen name="Result" component={ResultListScreen}/>
           <Stack.Screen name="Home" component={SearchScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
