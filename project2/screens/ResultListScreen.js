@@ -2,7 +2,7 @@ import React from "react";
 import { Button, View,Text, TextInput, StyleSheet, SectionList } from "react-native";
 import { navigation} from '@react-navigation/native'
 
-import SectionListMovies from '../SectionListMovies'
+// import SectionListMovies from '../SectionListMovies'
 import {fetchMovies} from '../api'
 
 
@@ -24,6 +24,7 @@ export default class ResultListScreen extends React.Component {
   getMovies = async () => {
     const results = await fetchMovies()
     this.setState({movies: results})
+    console.log(this.state.movies)
   }
 
   handleSelectMovie = movie => {
@@ -35,8 +36,8 @@ export default class ResultListScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <SectionListMovies
-          movies = {this.state.movies}
+        <SectionList
+          renderItem = {({item}) => <Row {...item} onSelectMovie = {props.onSelectMovie}/>}
           onSelectMovie={this.handleSelectMovie}
         /* <Text>{console.log(this.navigationOption)}</Text> */
         />

@@ -4,3 +4,10 @@ import PropTypes from 'prop-types'
 
 import Row from './Row'
 
+const SectionListMovies = props => {
+
+
+    return(
+        <SectionList
+    )
+}

@@ -10,7 +10,7 @@ export default class MovieDetailsScreen extends React.Component {
     render() {
         return (
             <View>
-                <Text>{this.props.navigation.getParam('Title')}</Text>
+                <Text>{this.props.navigation.getParam('title')}</Text>
                 <Text>{this.props.navigation.getParam('Type')}</Text>
                 <Text>{this.props.navigation.getParam('Year')}</Text>
                 <Text>{this.props.navigation.getParam('imdbID')}</Text>
