@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, View,Text, TextInput, StyleSheet, SectionList } from "react-native";
+import { Text, Button, View, TextInput, StyleSheet, SectionList } from "react-native";
 import { navigation} from '@react-navigation/native'
 
-// import SectionListMovies from '../SectionListMovies'
+import SectionListMovies from '../SectionListMovies'
 import {fetchMovies} from '../api'
+import { FlatList } from "react-native-gesture-handler";
 
 
 export default class ResultListScreen extends React.Component {
@@ -13,7 +14,7 @@ export default class ResultListScreen extends React.Component {
   // })
 
   state = {
-    movies: null,
+    movies: this.getMovies,
   }
 
   componentDidMount(){
@@ -35,10 +36,12 @@ export default class ResultListScreen extends React.Component {
   render() {
 
     return (
-      <View style={styles.container}>
-        <SectionList
-          renderItem = {({item}) => <Row {...item} onSelectMovie = {props.onSelectMovie}/>}
-          onSelectMovie={this.handleSelectMovie}
+      <View style={styles.container}>r
+        {/* <Text>{this.state.movies.Title}</Text> */}
+
+        <SectionListMovies
+          movies = {this.props.screenProps.movies}
+          onSelectMovie = {this.handleSelectMovie}
         /* <Text>{console.log(this.navigationOption)}</Text> */
         />
       </View>
