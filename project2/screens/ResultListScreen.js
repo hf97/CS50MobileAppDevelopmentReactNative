@@ -1,72 +1,60 @@
 import React from "react";
-import { Text, Button, View, TextInput, StyleSheet, SectionList } from "react-native";
-import { navigation} from '@react-navigation/native'
-
-import SectionListMovies from '../SectionListMovies'
-import {fetchMovies} from '../api'
-import { FlatList } from "react-native-gesture-handler";
-
+import { Button, View,Text, StyleSheet } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 
 export default class ResultListScreen extends React.Component {
 
-  // static navigationOptions = ({navigation}) => ({
-  //   headerTitle: 'Movies'
-  // })
-
-  state = {
-    movies: this.getMovies,
+  state={
+    movie: []
   }
 
-  componentDidMount(){
-    this.getMovies()
+  fetchMovie(movies){
+    try{
+      fetch(`http://www.omdbapi.com/?apikey=c05df044&s=${movies}`).then(response => response.json()).then((results)=>{this.setState({movie: results.Search})})
+    }
+    catch(error){
+      console.error(error);
+    }
   }
 
-
-  getMovies = async () => {
-    const results = await fetchMovies()
-    this.setState({movies: results})
-    console.log(this.state.movies)
-  }
-
-  handleSelectMovie = movie => {
-    // this.props.navigation.navigate('MovieDetailsScreen', {})
-    this.props.navigation.push('MovieDetailsScreen', movie)
+  selectMovie(item){
+    this.props.navigation.navigate('MovieDetails', {'item': item})
   }
 
   render() {
-
     return (
-      <View style={styles.container}>r
-        {/* <Text>{this.state.movies.Title}</Text> */}
-
-        <SectionListMovies
-          movies = {this.props.screenProps.movies}
-          onSelectMovie = {this.handleSelectMovie}
-        /* <Text>{console.log(this.navigationOption)}</Text> */
+      <View style = {styles.container}>
+        <Button onPress = {()=> this.fetchMovie(this.props.route.params.movie)} title = "Show Movies"/>
+        <FlatList 
+          data = {this.state.movie}
+          keyExtractor = {(item) =>item.imdbID}
+          renderItem={({item}) => 
+            <TouchableOpacity onPress = {()=>this.selectMovie(item)}>
+              <Text>{item.Title}</Text>
+            </TouchableOpacity>}
         />
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex:1,
-      //backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      marginTop: 120,
-      marginBottom: 120,
-    },
-  
-    textInput:{
-      borderWidth: 1,
-      borderColor: "#20232a",
-      borderRadius: 6,
-      alignItems:"stretch",
-      width: 120,
-      margin: 10,
-      textAlign: "center"
-    },
-  
-  });
+  container: {
+    flex:1,
+    //backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginTop: 120,
+    marginBottom: 120,
+  },
+
+  textInput:{
+    borderWidth: 1,
+    borderColor: "#20232a",
+    borderRadius: 6,
+    alignItems:"stretch",
+    width: 120,
+    margin: 10,
+    textAlign: "center"
+  },
+});
