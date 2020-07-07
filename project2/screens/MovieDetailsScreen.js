@@ -1,23 +1,22 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, Image, StyleSheet } from 'react-native'
 
 export default class MovieDetailsScreen extends React.Component {
   state = {
     item: this.props.route.params.item
   }
-
-  componentDidMount(){
-    console.log(this.props.route.params.item)
-  }
-
+  
   render() {
     return (
       <View style = {styles.container}>
-        <Text>{"Title: " + this.state.item.Title}</Text>
-        <Text>{"Type: " + this.state.item.Type}</Text>
-        <Text>{"Year: " + this.state.item.Year}</Text>
-        <Text>{"imdbID: " + this.state.item.imdbID}</Text>
-        {/* <Text>{this.state.item.Poster}</Text> */}
+        <Text style = {styles.text}>{"Title: " + this.state.item.Title}</Text>
+        <Text style = {styles.text}>{"Type: " + this.state.item.Type}</Text>
+        <Text style = {styles.text}>{"Year: " + this.state.item.Year}</Text>
+        <Text style = {styles.text}>{"imdbID: " + this.state.item.imdbID}</Text>
+        <Image
+          source = {{uri: this.state.item.Poster}}
+          style={{width: 400, height: 400}}  
+        />
       </View>
     )
   }
@@ -26,8 +25,11 @@ export default class MovieDetailsScreen extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
-		// alignItems: 'center',
-		// justifyContent: 'center',
-	},
+    backgroundColor: '#fff',
+    marginTop: 10,
+  },
+
+  text: {
+    fontSize: 16,
+  },
 });

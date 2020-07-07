@@ -1,11 +1,15 @@
 import React from "react";
-import { Button, View,Text, StyleSheet } from "react-native";
+import { Button, View, Text, Image, StyleSheet } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 
 export default class ResultListScreen extends React.Component {
 
   state={
     movie: []
+  }
+
+  componentDidMount(){
+    this.fetchMovie(this.props.route.params.movie)
   }
 
   fetchMovie(movies){
@@ -24,13 +28,20 @@ export default class ResultListScreen extends React.Component {
   render() {
     return (
       <View style = {styles.container}>
-        <Button onPress = {()=> this.fetchMovie(this.props.route.params.movie)} title = "Show Movies"/>
+        {/* <Button onPress = {()=> this.fetchMovie(this.props.route.params.movie)} title = "Show Movies"/> */}
+        <Text>{"Number of results: " + this.state.movie.length}</Text>
         <FlatList 
           data = {this.state.movie}
           keyExtractor = {(item) =>item.imdbID}
           renderItem={({item}) => 
             <TouchableOpacity onPress = {()=>this.selectMovie(item)}>
-              <Text>{item.Title}</Text>
+              <View style = {styles.entry}>
+                <Image
+                  source = {{uri: item.Poster}}
+                  style={{width: 40, height: 40}}  
+                />
+                <Text style = {styles.text}>{item.Title}</Text>
+              </View>
             </TouchableOpacity>}
         />
       </View>
@@ -44,17 +55,25 @@ const styles = StyleSheet.create({
     //backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    marginTop: 120,
-    marginBottom: 120,
+    marginTop: 20,
+    // marginBottom: 120,
+    // fontSize: 0,
   },
 
-  textInput:{
-    borderWidth: 1,
-    borderColor: "#20232a",
-    borderRadius: 6,
-    alignItems:"stretch",
-    width: 120,
-    margin: 10,
-    textAlign: "center"
+  text: {
+    fontSize: 17,
+    maxWidth: 320,
   },
+
+  entry: {
+    flexDirection: 'row',
+    borderWidth: 0.4,
+    alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 10,
+    borderRadius: 6,
+    width: 370,
+    // flexWrap: 'wrap',
+
+  }
 });

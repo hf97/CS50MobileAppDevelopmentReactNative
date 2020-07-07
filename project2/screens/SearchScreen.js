@@ -36,10 +36,12 @@ const styles = StyleSheet.create({
   
   textInput:{
 		borderWidth: 1,
-    borderColor: "#20232a",
+    	borderColor: "#20232a",
 		borderRadius: 6,
 		alignItems:"stretch",
-		width: 120,
+		fontSize: 30,
+		width: 300,
+		height: 50,
 		margin: 10,
 		textAlign: "center"
 	},	
