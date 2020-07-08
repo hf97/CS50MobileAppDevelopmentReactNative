@@ -5,7 +5,8 @@ import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 export default class ResultListScreen extends React.Component {
 
   state={
-    movie: []
+    movie: [],
+    page: 1,
   }
 
   componentDidMount(){
