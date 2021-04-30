@@ -15,7 +15,7 @@ export default class ResultListScreen extends React.Component {
 
   fetchMovie(movies){
     try{
-      fetch(`http://www.omdbapi.com/?apikey=c05df044&s=${movies}`).then(response => response.json()).then((results)=>{this.setState({movie: results.Search})})
+      fetch(`http://www.omdbapi.com/?apikey=&s=${movies}`).then(response => response.json()).then((results)=>{this.setState({movie: results.Search})})
     }
     catch(error){
       console.error(error);
